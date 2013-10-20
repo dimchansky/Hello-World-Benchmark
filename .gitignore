@@ -1,0 +1,12 @@
+#Ignore files build by Visual Studio
+*.obj
+*.pdb
+*.user
+*.suo
+*.DotSettings
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+
