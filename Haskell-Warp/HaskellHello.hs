@@ -1,20 +1,23 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
-import Network.Wai ( Application, Response( ResponseBuilder ) )
-import Network.HTTP.Types ( status200 )
-import Network.HTTP.Types.Header ( hContentType, hContentLength, hConnection )
-import Network.Wai.Handler.Warp ( run )
-import Blaze.ByteString.Builder (fromByteString)
-import qualified Data.ByteString.Char8 as BS ( pack, length )
+import qualified Data.ByteString.Builder   as B
+import qualified Data.ByteString.Char8     as BS
+import           Network.HTTP.Types        (status200)
+import           Network.HTTP.Types.Header (hConnection, hContentLength,
+                                            hContentType)
+import           Network.Wai               (Application, responseBuilder)
+import           Network.Wai.Handler.Warp  (run)
 
 application :: Application
-application _ = return $ 
-    ResponseBuilder status200 [(hContentType, BS.pack "text/plain"), 
-                               (hContentLength, BS.pack bodyLen ), 
-                               (hConnection, BS.pack "keep-alive")] 
-                    $ fromByteString body
-    where body = BS.pack "Hello, World!"
-          bodyLen = show . BS.length $ body
+application _ respond = respond $
+    responseBuilder status200 headers $ B.byteString body
+    where headers = [(hContentType, "text/plain"),
+                     (hContentLength, bodyLen ),
+                     (hConnection, "keep-alive")]
+          body = "Hello, World!"
+          bodyLen = BS.pack . show . BS.length $ body
 
 main :: IO ()
 main = run 8080 application
