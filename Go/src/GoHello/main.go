@@ -1,6 +1,6 @@
 package main
 
-import (	
+import (
 	"net/http"
 	"runtime"
 )
@@ -9,7 +9,7 @@ const helloWorldString = "Hello, World!"
 
 var helloWorldBytes = []byte(helloWorldString)
 
-func plaintextHandler(w http.ResponseWriter, r *http.Request) {	
+func plaintextHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write(helloWorldBytes)
 }
