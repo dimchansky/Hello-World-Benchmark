@@ -1,15 +1,17 @@
 package main
 
-import (
-	"io"
+import (	
 	"net/http"
 	"runtime"
 )
 
-func plaintextHandler(w http.ResponseWriter, r *http.Request) {
-	helloWorldString := "Hello, World!"
+const helloWorldString = "Hello, World!"
+
+var helloWorldBytes = []byte(helloWorldString)
+
+func plaintextHandler(w http.ResponseWriter, r *http.Request) {	
 	w.Header().Set("Content-Type", "text/plain")
-	io.WriteString(w, helloWorldString)
+	w.Write(helloWorldBytes)
 }
 
 func main() {
